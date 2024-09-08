@@ -23,7 +23,10 @@ let id = 0;
 requestWakeLock();
 
 // DOM initializing
-HEADER.innerHTML = `<h1>${APP_NAME}</h1>`;
+HEADER.innerHTML = `
+<div style="min-width: 40px; min-height: 1px;"></div>
+<h1>${APP_NAME}</h1>
+<button class="base-button" style="margin-right: 8px; padding: 8px;" onclick="onRefreshClick()">${getSvgIcon('arrows-rotate', 'icon-xs')}</button>`;
 
 /* MAIN.innerHTML = `
   <span>Hello world</span>
@@ -37,7 +40,10 @@ FOOTER.innerHTML = `
   <span>v ${APP_VERSION}</span>`;
 
 
-
+const onRefreshClick = () => {
+  window.location = window.location;
+}
+window.onRefreshClick = onRefreshClick;
 
 const getRandomConstructions = (type, maxLevel, count) => {
   let constructions = [];
@@ -48,7 +54,7 @@ const getRandomConstructions = (type, maxLevel, count) => {
   //constructions.sort((a, b) => {return a.type.name - b.type.name});
   //constructions.sort((a, b) => {return a.level - b.level});
   //constructions.sort((a, b) => {return a.subtype - b.subtype});
-  constructions.sort((a, b) => {return a.income - b.income});
+  //constructions.sort((a, b) => {return a.income - b.income});
   return constructions;
 }
 
@@ -65,14 +71,18 @@ const getSvgIconForType = (type) => {
 
 const getSvgIconForSubtype = (subtype) => {
   switch (subtype) {
-    case 'Vente': return getSvgIcon('basket-shopping', 'icon-s subtype-icon');
-    case 'Hôtellerie': return getSvgIcon('bed', 'icon-s subtype-icon');
-    case 'Restauration': return getSvgIcon('utensils', 'icon-s subtype-icon');
-
+    // COMMERCIAL -----------------------------------------
+    case 'Vente': return getSvgIcon('basket-shopping', 'icon-m subtype-icon');
+    case 'Restauration': return getSvgIcon('utensils', 'icon-m subtype-icon');
+    // CULTURAL -----------------------------------------
     case 'Musée': return getSvgIcon('cloud-showers-heavy', 'icon-xs subtype-icon');
     case 'Théâtre': return getSvgIcon('cloud-showers-heavy', 'icon-xs subtype-icon');
     case 'Cinéma': return getSvgIcon('cloud-showers-heavy', 'icon-xs subtype-icon');
     case 'Salle de concert': return getSvgIcon('cloud-showers-heavy', 'icon-xs subtype-icon');
+    // SOCIAL -----------------------------------------
+    // HOUSING --------------------------------------------
+    case 'Hôtellerie': return getSvgIcon('bed', 'icon-m subtype-icon');
+    // OFFICE, INDUSTRY -----------------------------------------
   }
 }
 
@@ -92,15 +102,13 @@ const getConstructionCompleteCard = (construction) => {
     </div>
     <div class="complete-card-body">
       
+      <!-- <span>${construction.level}</span> -->
+      <!-- <div class="complete-card-line"><span>Réputation</span><span>${construction.reputation_level}</span></div> -->
+      <!-- <div class="complete-card-line"><span>Prix d'achat</span><span>${formatNumberWithSpaces(construction.buying_price)}€</span></div> -->
+      <!-- <div class="complete-card-line"><span>Prix de revente</span><span>${formatNumberWithSpaces(construction.selling_price)}€</span></div> -->
+
       <div class="complete-card-line">
-        <!--<div class="line-bloc">
-          <span>Niveau</span>
-          <span>${construction.level}</span>
-        </div> -->
-        <div class="line-bloc">
-          <!-- <span>Superficie</span> -->
           <span><b>${formatNumberWithSpaces(construction.superficy)}</b> m²</span>
-        </div>
       </div>
 
       <div class="complete-card-line">
@@ -117,9 +125,6 @@ const getConstructionCompleteCard = (construction) => {
         <span><b>${formatNumberWithSpaces(construction.revenue)}</b> €/mois</span>
       </div> -->
 
-      <!-- <div class="complete-card-line"><span>Réputation</span><span>${construction.reputation_level}</span></div> -->
-      <!-- <div class="complete-card-line"><span>Prix d'achat</span><span>${formatNumberWithSpaces(construction.buying_price)}€</span></div> -->
-      <!-- <div class="complete-card-line"><span>Prix de revente</span><span>${formatNumberWithSpaces(construction.selling_price)}€</span></div> -->
       <div class="complete-card-line"><span><b>${formatNumberWithSpaces(construction.buying_price)}</b> € TTC</span></div>
 
       <button class="buy-button" onclick="onBuyClick(${construction.id})">${getSvgIcon('euro-sign', 'icon-xs')}<span>Acheter</span></button>
@@ -158,13 +163,13 @@ const TYPES = {
   COMMERCIAL: {
     name: 'Commerce',
     subtypes: [
-      'Vente', 'Hôtellerie', 'Restauration',
+      'Vente', 'Restauration',
     ],
   },
   HOUSING: {
     name: 'Logement',
     subtypes: [
-      'subtype1', 'subtype2',
+      'Hôtellerie', 'subtype2',
     ],
   },
   CULTURAL: {
@@ -283,28 +288,19 @@ const getFixedSuperficy = (subtype, level) => {
     // COMMERCIAL -----------------------------------------
     case 'Vente':
       switch (level) {
-        case 1: superficy = 30; break;
-        case 2: superficy = 60; break;
-        case 3: superficy = 120; break;
-        case 4: superficy = 400; break;
-        case 5: superficy = 1000; break;
-        default: break;
-      } break;
-    case 'Hôtellerie':
-      switch (level) {
-        case 1: superficy = 200; break;
-        case 2: superficy = 600; break;
-        case 3: superficy = 1250; break;
-        case 4: superficy = 2500; break;
-        case 5: superficy = 5000; break;
+        case 1: superficy = 40; break;
+        case 2: superficy = 80; break;
+        case 3: superficy = 220; break;
+        case 4: superficy = 650; break;
+        case 5: superficy = 2000; break;
         default: break;
       } break;
     case 'Restauration':
       switch (level) {
-        case 1: superficy = 25; break;
+        case 1: superficy = 30; break;
         case 2: superficy = 50; break;
-        case 3: superficy = 75; break;
-        case 4: superficy = 150; break;
+        case 3: superficy = 80; break;
+        case 4: superficy = 160; break;
         case 5: superficy = 300; break;
         default: break;
       } break;
@@ -345,7 +341,7 @@ const getFixedSuperficy = (subtype, level) => {
         case 5: superficy = 1000; break;
         default: break;
       } break;
-    // COMMERCIAL -----------------------------------------
+    // SOCIAL -----------------------------------------
     case 'École':
       switch (level) {
         case 1: superficy = 20; break;
@@ -364,7 +360,17 @@ const getFixedSuperficy = (subtype, level) => {
         case 5: superficy = 1000; break;
         default: break;
       } break;
-    // HOUSING, OFFICE, INDUSTRY -----------------------------------------
+    // HOUSING --------------------------------------------------
+    case 'Hôtellerie':
+      switch (level) {
+        case 1: superficy = 200; break;
+        case 2: superficy = 600; break;
+        case 3: superficy = 1250; break;
+        case 4: superficy = 2500; break;
+        case 5: superficy = 5000; break;
+        default: break;
+      } break;
+    // OFFICE, INDUSTRY -----------------------------------------
     case 'subtype1':
       switch (level) {
         case 1: superficy = 20; break;
@@ -399,15 +405,6 @@ const getFixedOperatingCost = (subtype, level, superficy) => {
         case 3: operatingCost = 750 * superficy; break;
         case 4: operatingCost = 1900 * superficy; break;
         case 5: operatingCost = 5000 * superficy; break;
-        default: break;
-      } break;
-    case 'Hôtellerie':
-      switch (level) {
-        case 1: operatingCost = 400 * superficy; break;
-        case 2: operatingCost = 900 * superficy; break;
-        case 3: operatingCost = 1200 * superficy; break;
-        case 4: operatingCost = 3250 * superficy; break;
-        case 5: operatingCost = 7000 * superficy; break;
         default: break;
       } break;
     case 'Restauration':
@@ -456,7 +453,7 @@ const getFixedOperatingCost = (subtype, level, superficy) => {
         case 5: operatingCost = 1000 * superficy; break;
         default: break;
       } break;
-    // COMMERCIAL -----------------------------------------
+    // SOCIAL -----------------------------------------
     case 'École':
       switch (level) {
         case 1: operatingCost = 20 * superficy; break;
@@ -475,7 +472,17 @@ const getFixedOperatingCost = (subtype, level, superficy) => {
         case 5: operatingCost = 1000 * superficy; break;
         default: break;
       } break;
-    // HOUSING, OFFICE, INDUSTRY -----------------------------------------
+    // HOUSING -------------------------------------------------
+    case 'Hôtellerie':
+      switch (level) {
+        case 1: operatingCost = 400 * superficy; break;
+        case 2: operatingCost = 900 * superficy; break;
+        case 3: operatingCost = 1200 * superficy; break;
+        case 4: operatingCost = 3250 * superficy; break;
+        case 5: operatingCost = 7000 * superficy; break;
+        default: break;
+      } break;
+    // OFFICE, INDUSTRY -----------------------------------------
     case 'subtype1':
       switch (level) {
         case 1: operatingCost = 20 * superficy; break;
@@ -510,15 +517,6 @@ const getFixedIncome = (subtype, level, superficy) => {
         case 3: income = 1200 * superficy; break;
         case 4: income = 4000 * superficy; break;
         case 5: income = 10000 * superficy; break;
-        default: break;
-      } break;
-    case 'Hôtellerie':
-      switch (level) {
-        case 1: income = 500 * superficy; break;
-        case 2: income = 1000 * superficy; break;
-        case 3: income = 2000 * superficy; break;
-        case 4: income = 5000 * superficy; break;
-        case 5: income = 100000 * superficy; break;
         default: break;
       } break;
     case 'Restauration':
@@ -567,7 +565,7 @@ const getFixedIncome = (subtype, level, superficy) => {
         case 5: income = 1000 * superficy; break;
         default: break;
       } break;
-    // COMMERCIAL -----------------------------------------
+    // SOCIAL -----------------------------------------
     case 'École':
       switch (level) {
         case 1: income = 20 * superficy; break;
@@ -586,7 +584,17 @@ const getFixedIncome = (subtype, level, superficy) => {
         case 5: income = 1000 * superficy; break;
         default: break;
       } break;
-    // HOUSING, OFFICE, INDUSTRY -----------------------------------------
+    // HOUSING --------------------------------------------------
+    case 'Hôtellerie':
+      switch (level) {
+        case 1: income = 500 * superficy; break;
+        case 2: income = 1000 * superficy; break;
+        case 3: income = 2000 * superficy; break;
+        case 4: income = 5000 * superficy; break;
+        case 5: income = 100000 * superficy; break;
+        default: break;
+      } break;
+    // OFFICE, INDUSTRY -----------------------------------------
     case 'subtype1':
       switch (level) {
         case 1: income = 20 * superficy; break;
@@ -621,15 +629,6 @@ const getConstructionImgSrc = (subtype, level) => {
         case 3: imgSrc = './medias/images/vente-3.jpeg'; break;
         case 4: imgSrc = './medias/images/vente-4.jpeg'; break;
         case 5: imgSrc = './medias/images/vente-5.jpeg'; break;
-        default: break;
-      } break;
-    case 'Hôtellerie':
-      switch (level) {
-        case 1: imgSrc = './medias/images/hotel-1.jpeg'; break;
-        case 2: imgSrc = './medias/images/hotel-2.jpeg'; break;
-        case 3: imgSrc = './medias/images/hotel-3.jpeg'; break;
-        case 4: imgSrc = './medias/images/hotel-4.jpeg'; break;
-        case 5: imgSrc = './medias/images/hotel-5.jpeg'; break;
         default: break;
       } break;
     case 'Restauration':
@@ -678,7 +677,7 @@ const getConstructionImgSrc = (subtype, level) => {
         case 5: imgSrc = 1000; break;
         default: break;
       } break;
-    // COMMERCIAL -----------------------------------------
+    // SOCIAL -----------------------------------------
     case 'École':
       switch (level) {
         case 1: imgSrc = 20; break;
@@ -697,16 +696,26 @@ const getConstructionImgSrc = (subtype, level) => {
         case 5: imgSrc = 1000; break;
         default: break;
       } break;
-    // HOUSING, OFFICE, INDUSTRY -----------------------------------------
-    case 'subtype1':
+    // HOUSING --------------------------------------------
+    case 'Hôtellerie':
       switch (level) {
-        case 1: imgSrc = 20; break;
-        case 2: imgSrc = 50; break;
-        case 3: imgSrc = 120; break;
-        case 4: imgSrc = 400; break;
-        case 5: imgSrc = 1000; break;
+        case 1: imgSrc = './medias/images/hotel-1.jpeg'; break;
+        case 2: imgSrc = './medias/images/hotel-2.jpeg'; break;
+        case 3: imgSrc = './medias/images/hotel-3.jpeg'; break;
+        case 4: imgSrc = './medias/images/hotel-4.jpeg'; break;
+        case 5: imgSrc = './medias/images/hotel-5.jpeg'; break;
         default: break;
       } break;
+    // OFFICE, INDUSTRY -----------------------------------------
+    case 'subtype1':
+      switch (level) {
+      case 1: imgSrc = 20; break;
+      case 2: imgSrc = 50; break;
+      case 3: imgSrc = 120; break;
+      case 4: imgSrc = 400; break;
+      case 5: imgSrc = 1000; break;
+      default: break;
+    } break;
     case 'subtype2':
       switch (level) {
         case 1: imgSrc = 20; break;
@@ -716,36 +725,43 @@ const getConstructionImgSrc = (subtype, level) => {
         case 5: imgSrc = 1000; break;
         default: break;
       } break;
-    default: break;
-  }
-  return imgSrc;
+      default: break;
+    }
+    return imgSrc;
 }
 
-const VENTE_NAMES = ['Fleurs', 'Mobilier', 'Lingerie', 'Fringues', 'Menuiserie', 'Miam miam', 'Sport'];
-const VENTE_ADDONS = ['3000', 'City', 'Market', 'Super', 'Masters', 'Pro'];
+// COMMERCIAL -----------------------------------------
+const VENTE_NAMES = ['Fleurs', 'Jardi', 'Déco', 'Meubles', 'Fringues', 'Menuiserie', 'Alimentation', 'Sport', 'Tissus', 'Chauss\'', 'Electro', 'Brico', 'Jouets', 'Animal'];
+const VENTE_ADDONS = ['3000', 'City', 'Market', 'Super', 'Masters', 'Pro', 'Land', '& Co'];
 
+const RESTAURATION_NAMES = ['Ol\'Simon\'s', 'Georges\'', 'Geoffrey\'s', 'Rachel\'s', 'Mr Boon\'s', 'Audrey\'s', 'Mama Diana\'s', 'Takumi\'s', 'Fast', 'Mega', 'Master'];
+const RESTAURATION_ADDONS = ['Tapas', 'Grill', 'Burgers', 'Pizzas', 'Sushis', 'Salads'];
+
+// CULTURAL ---------------------------------------------------
+// SOCIAL ---------------------------------------------------
+// HOUSING ---------------------------------------------------
 const HOTELLERIE_NAMES = ['Cozy', 'Golden Artus', 'The St-Paul', 'Downtown Grand', 'Mr Ferbant\'s'];
 const HOTELLERIE_ADDONS = ['Resort', 'Inn', 'Hotel'];
+// OFFICE, INDUSTRY ---------------------------------------------------
 
-const RESTAURATION_NAMES = ['Ol\' Simon\'s', 'Georges\'', 'Geoffrey\'s', 'Rachel\'s', 'M.Boon\'s', 'Audrey\'s', 'Mama Diana\'s'];
-const RESTAURATION_ADDONS = ['Tapas', 'Grill', 'Burgers', 'Pizzas', 'Sushis', 'Salads'];
 
 const getRandomName = (subtype) => {
   let name = '';
   switch (subtype) {
     // COMMERCIAL -----------------------------------------
     case 'Vente': { name = `${VENTE_NAMES[getRandomIntegerBetween(0, VENTE_NAMES.length - 1)]} ${VENTE_ADDONS[getRandomIntegerBetween(0, VENTE_ADDONS.length - 1)]}`; } break;
-    case 'Hôtellerie': { name = `${HOTELLERIE_NAMES[getRandomIntegerBetween(0, HOTELLERIE_NAMES.length - 1)]} ${HOTELLERIE_ADDONS[getRandomIntegerBetween(0, HOTELLERIE_ADDONS.length - 1)]}`; } break;
     case 'Restauration': { name = `${RESTAURATION_NAMES[getRandomIntegerBetween(0, RESTAURATION_NAMES.length - 1)]} ${RESTAURATION_ADDONS[getRandomIntegerBetween(0, RESTAURATION_ADDONS.length - 1)]}`; } break;
     // CULTURAL -----------------------------------------
     case 'Musée': { name = `${VENTE_NAMES[getRandomIntegerBetween(0, VENTE_NAMES.length - 1)]} ${VENTE_ADDONS[getRandomIntegerBetween(0, VENTE_ADDONS.length - 1)]}`; } break;
     case 'Théâtre': { name = `${VENTE_NAMES[getRandomIntegerBetween(0, VENTE_NAMES.length - 1)]} ${VENTE_ADDONS[getRandomIntegerBetween(0, VENTE_ADDONS.length - 1)]}`; } break;
     case 'Cinéma': { name = `${VENTE_NAMES[getRandomIntegerBetween(0, VENTE_NAMES.length - 1)]} ${VENTE_ADDONS[getRandomIntegerBetween(0, VENTE_ADDONS.length - 1)]}`; } break;
     case 'Salle de concert': { name = `${VENTE_NAMES[getRandomIntegerBetween(0, VENTE_NAMES.length - 1)]} ${VENTE_ADDONS[getRandomIntegerBetween(0, VENTE_ADDONS.length - 1)]}`; } break;
-    // COMMERCIAL -----------------------------------------
+    // SOCIAL -----------------------------------------
     case 'École': { name = `${VENTE_NAMES[getRandomIntegerBetween(0, VENTE_NAMES.length - 1)]} ${VENTE_ADDONS[getRandomIntegerBetween(0, VENTE_ADDONS.length - 1)]}`; } break;
     case 'Hôpital': { name = `${VENTE_NAMES[getRandomIntegerBetween(0, VENTE_NAMES.length - 1)]} ${VENTE_ADDONS[getRandomIntegerBetween(0, VENTE_ADDONS.length - 1)]}`; } break;
-    // HOUSING, OFFICE, INDUSTRY -----------------------------------------
+    // HOUSING ---------------------------------------------------
+    case 'Hôtellerie': { name = `${HOTELLERIE_NAMES[getRandomIntegerBetween(0, HOTELLERIE_NAMES.length - 1)]} ${HOTELLERIE_ADDONS[getRandomIntegerBetween(0, HOTELLERIE_ADDONS.length - 1)]}`; } break;
+    // OFFICE, INDUSTRY -----------------------------------------
     case 'subtype1': { name = `${VENTE_NAMES[getRandomIntegerBetween(0, VENTE_NAMES.length - 1)]} ${VENTE_ADDONS[getRandomIntegerBetween(0, VENTE_ADDONS.length - 1)]}`; } break;
     case 'subtype2': { name = `${VENTE_NAMES[getRandomIntegerBetween(0, VENTE_NAMES.length - 1)]} ${VENTE_ADDONS[getRandomIntegerBetween(0, VENTE_ADDONS.length - 1)]}`; } break;
     default: break;

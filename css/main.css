@@ -32,11 +32,12 @@ html, body {
 
   header {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     min-width: 100%; width: 100%; max-width: 100%;
     min-height: var(--size--header-height); height: var(--size--header-height); max-height: var(--size--header-height);
     background-color: #ffe6ff;
+    color: #d1b7d1;
   }
 
   main {
@@ -123,20 +124,20 @@ button {
   } */
 
   &.base-button {
-    background-color: #e7e7e7;
-    color: black;
+    background-color: #d1b7d1;
+    color: white;
 
     & path {
-      fill: black;
+      fill: white;
       transition: fill .2s linear;
     }
 
     &:active {
-      background-color: #b1b1b1;
-      color: black;
+      background-color: #b89eb8;
+      color: white;
 
       & path {
-        fill: black;
+        fill: white;
       }
     }
   }
@@ -224,21 +225,32 @@ button {
       }
 
       .lvl-display {
+        --dot-size: 24px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        min-width: 48px;
-        min-height: 100%;
-        color: black;
+        min-width: var(--dot-size); width: var(--dot-size); max-width: var(--dot-size);
+        min-height: var(--dot-size); height: var(--dot-size); max-height: var(--dot-size);
+        margin-right: 8px;
+        border-radius: 500px;
+        color: white;
         text-align: center;
-        /* font-size: 10px; */
+        font-size: 14px;
 
-        &.lvl1 { background-color: hsl(0, 0%, 90%); }
-        &.lvl2 { background-color: hsl(0, 0%, 85%); }
-        &.lvl3 { background-color: hsl(0, 0%, 80%); }
-        &.lvl4 { background-color: hsl(0, 0%, 75%); }
-        &.lvl5 { background-color: hsl(0, 0%, 70%); }
+        /* 
+        &.lvl1 { background-color: hsl(200, 100%, 90%); }
+        &.lvl2 { background-color: hsl(180, 90%, 80%); }
+        &.lvl3 { background-color: hsl(160, 80%, 70%); }
+        &.lvl4 { background-color: hsl(140, 60%, 60%); }
+        &.lvl5 { background-color: hsl(120, 40%, 50%); } 
+        */
+
+        &.lvl1 { background-color: hsl(00, 10%, 30%); }
+        &.lvl2 { background-color: hsl(40, 30%, 30%); }
+        &.lvl3 { background-color: hsl(70, 35%, 25%); }
+        &.lvl4 { background-color: hsl(90, 30%, 35%); }
+        &.lvl5 { background-color: hsl(110, 30%, 30%); }
       }
     }
 
