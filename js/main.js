@@ -134,7 +134,7 @@ const getConstructionById = (id) => {
 const onBuyClick = (id) => {
   const construction = getConstructionById(id);
   //console.table(construction);
-  window.confirm(`${construction.name} a bien été acheté pour ${formatNumberWithSpaces(construction.selling_price)} €`)
+  window.confirm(`${construction.name} a bien été acheté pour ${formatNumberWithSpaces(construction.buying_price)} €`)
 }
 window.onBuyClick = onBuyClick;
 
@@ -727,7 +727,7 @@ const VENTE_ADDONS = ['3000', 'City', 'Market', 'Super', 'Masters', 'Pro'];
 const HOTELLERIE_NAMES = ['Cozy', 'Golden Artus', 'The St-Paul', 'Downtown Grand', 'Mr Ferbant\'s'];
 const HOTELLERIE_ADDONS = ['Resort', 'Inn', 'Hotel'];
 
-const RESTAURATION_NAMES = ['Ol\' Simon\'s', 'Georges\'', 'Geoffrey\'s', 'Rachel\'s', 'M.Boon\'s', 'Audrey\'s', 'Mama Diana \'s'];
+const RESTAURATION_NAMES = ['Ol\' Simon\'s', 'Georges\'', 'Geoffrey\'s', 'Rachel\'s', 'M.Boon\'s', 'Audrey\'s', 'Mama Diana\'s'];
 const RESTAURATION_ADDONS = ['Tapas', 'Grill', 'Burgers', 'Pizzas', 'Sushis', 'Salads'];
 
 const getRandomName = (subtype) => {
